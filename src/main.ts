@@ -1,9 +1,11 @@
 import * as core from '@actions/core';
-import * as github from '@actions/github';
 import {wait} from './wait';
+import * as github from '@actions/github';
+// import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 
 async function run(): Promise<void> {
   try {
+    core.debug(github.context.eventName);
     const ms: string = core.getInput('milliseconds');
     core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
 
