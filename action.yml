@@ -2,10 +2,10 @@ name: 'Automated Flysystem Maintenance'
 description: 'Automated maintenance tasks for Flysystem (monorepo and sub-splits)'
 author: 'Frank de Jonge'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  access-token:
+    description: 'Access-token for the repository. Can be supplied using `{{ secrets.GH_PAT }}`.'
+    required: false
+    default: ${{ github.token }}
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -1,22 +1,25 @@
 import * as core from '@actions/core';
-import {wait} from './wait';
-import * as github from '@actions/github';
+import { context, getInput, getOctokit } from '@actions/github';
+
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 
 async function run(): Promise<void> {
-  try {
-    console.log(github.context.eventName);
-    const ms: string = core.getInput('milliseconds');
-    core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+  const octokit = getOctokit(getInput('access-token'));
+  const pulls = await octokit.rest.pulls.list({
+    state: 'open',
+    repo: context.repo.repo,
+    owner: context.repo.owner,
+    per_page: 100,
+  });
 
-    core.debug(new Date().toTimeString());
-    await wait(parseInt(ms, 10));
-    core.debug(new Date().toTimeString());
-
-    core.setOutput('time', new Date().toTimeString());
-  } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message);
-  }
+  console.log(pulls);
+  console.log(context.eventName);
+  console.log(context.payload);
 }
 
-run();
+// eslint-disable-next-line github/no-then
+run().catch(error => {
+  if (error instanceof Error) {
+    core.setFailed(error.message);
+  }
+});

@@ -31,45 +31,26 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const wait_1 = __nccwpck_require__(5817);
-const github = __importStar(__nccwpck_require__(5438));
+const github_1 = __nccwpck_require__(5438);
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 async function run() {
-    try {
-        console.log(github.context.eventName);
-        const ms = core.getInput('milliseconds');
-        core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-        core.debug(new Date().toTimeString());
-        await (0, wait_1.wait)(parseInt(ms, 10));
-        core.debug(new Date().toTimeString());
-        core.setOutput('time', new Date().toTimeString());
-    }
-    catch (error) {
-        if (error instanceof Error)
-            core.setFailed(error.message);
-    }
-}
-run();
-
-
-/***/ }),
-
-/***/ 5817:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.wait = void 0;
-async function wait(milliseconds) {
-    return new Promise(resolve => {
-        if (isNaN(milliseconds)) {
-            throw new Error('milliseconds not a number');
-        }
-        setTimeout(() => resolve('done!'), milliseconds);
+    const octokit = (0, github_1.getOctokit)((0, github_1.getInput)('access-token'));
+    const pulls = await octokit.rest.pulls.list({
+        state: 'open',
+        repo: github_1.context.repo.repo,
+        owner: github_1.context.repo.owner,
+        per_page: 100,
     });
+    console.log(pulls);
+    console.log(github_1.context.eventName);
+    console.log(github_1.context.payload);
 }
-exports.wait = wait;
+// eslint-disable-next-line github/no-then
+run().catch(error => {
+    if (error instanceof Error) {
+        core.setFailed(error.message);
+    }
+});
 
 
 /***/ }),
