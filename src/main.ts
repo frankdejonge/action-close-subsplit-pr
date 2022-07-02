@@ -5,7 +5,7 @@ import * as github from '@actions/github';
 
 async function run(): Promise<void> {
   try {
-    core.info(github.context.eventName);
+    console.log(github.context.eventName);
     const ms: string = core.getInput('milliseconds');
     core.debug(`Waiting ${ms} milliseconds ...`); // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
 
