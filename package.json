@@ -5,13 +5,13 @@
   "description": "Automated maintenance actions for Flysystem",
   "main": "lib/main.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc || true",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
     "package": "ncc build --source-map --license licenses.txt",
     "test": "jest",
-    "all": "npm run format && npm run lint && npm run package && npm test",
+    "all": "npm run build npm run format && npm run lint && npm run package && npm test",
     "prepare": "husky install"
   },
   "repository": {
