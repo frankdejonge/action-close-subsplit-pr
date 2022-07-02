@@ -34,7 +34,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 async function run() {
-    const octokit = (0, github_1.getOctokit)((0, github_1.getInput)('access-token'));
+    const octokit = (0, github_1.getOctokit)(core.getInput('access-token'));
     const pulls = await octokit.rest.pulls.list({
         state: 'open',
         repo: github_1.context.repo.repo,

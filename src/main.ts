@@ -1,10 +1,10 @@
 import * as core from '@actions/core';
-import { context, getInput, getOctokit } from '@actions/github';
+import {context, getOctokit } from '@actions/github';
 
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 
 async function run(): Promise<void> {
-  const octokit = getOctokit(getInput('access-token'));
+  const octokit = getOctokit(core.getInput('access-token'));
   const pulls = await octokit.rest.pulls.list({
     state: 'open',
     repo: context.repo.repo,
