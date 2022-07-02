@@ -1,5 +1,8 @@
 name: 'build-test'
 on: # rebuild any PRs and main branch changes
+  push:
+    branches:
+      - main
   pull_request:
     branches:
       - test-target
