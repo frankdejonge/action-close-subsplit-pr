@@ -18,6 +18,7 @@ on:
 
 jobs:
   check-dist:
+    if: false # always skip job
     runs-on: ubuntu-latest
 
     steps:

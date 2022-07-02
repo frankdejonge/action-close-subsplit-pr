@@ -22,6 +22,7 @@ on:
 
 jobs:
   analyze:
+    if: false # always skip job
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
