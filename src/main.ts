@@ -31,6 +31,7 @@ const isLabel =
 
 async function run(): Promise<void> {
   const octokit = getOctokit(core.getInput('access-token'));
+  const matchBranch = new RegExp(core.getInput('target_branch_match'));
   const pulls = await octokit.rest.pulls.list({
     state: 'open',
     owner: context.repo.owner,
@@ -41,6 +42,7 @@ async function run(): Promise<void> {
   await ensureLabelExists(octokit);
 
   for (const pr of pulls.data) {
+    console.log(pr);
     if (!pr.labels.some(isLabel(subsplitPrLabel))) {
       await octokit.rest.issues.addLabels({
         ...context.repo,

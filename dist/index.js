@@ -53,6 +53,7 @@ const subsplitPrLabel = {
 const isLabel = (a) => (b) => a.name === b.name;
 async function run() {
     const octokit = (0, github_1.getOctokit)(core.getInput('access-token'));
+    const matchBranch = new RegExp(core.getInput('target_branch_match'));
     const pulls = await octokit.rest.pulls.list({
         state: 'open',
         owner: github_1.context.repo.owner,
@@ -61,6 +62,7 @@ async function run() {
     });
     await ensureLabelExists(octokit);
     for (const pr of pulls.data) {
+        console.log(pr);
         if (!pr.labels.some(isLabel(subsplitPrLabel))) {
             await octokit.rest.issues.addLabels({
                 ...github_1.context.repo,

@@ -2,6 +2,10 @@ name: 'Automated Flysystem Maintenance'
 description: 'Automated maintenance tasks for Flysystem (monorepo and sub-splits)'
 author: 'Frank de Jonge'
 inputs:
+  target_branch_match:
+    description: 'Regex pattern to match which branches to target'
+    required: false
+    default: '.*'
   access-token:
     description: 'Access-token for the repository. Can be supplied using `{{ secrets.GH_PAT }}`.'
     required: false
