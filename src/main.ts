@@ -14,12 +14,13 @@ async function run(): Promise<void> {
   });
 
   for (const pr of pulls.data) {
-    await octokit.rest.issues.createComment({
-      issue_number: pr.number,
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      body: 'Hello from the github action!',
-    });
+    console.log(pr.labels);
+    // await octokit.rest.issues.createComment({
+    //   issue_number: pr.number,
+    //   owner: context.repo.owner,
+    //   repo: context.repo.repo,
+    //   body: 'Hello from the github action!',
+    // });
   }
 
   console.log(pulls);

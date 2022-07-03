@@ -42,12 +42,13 @@ async function run() {
         per_page: 100,
     });
     for (const pr of pulls.data) {
-        await octokit.rest.issues.createComment({
-            issue_number: pr.number,
-            owner: github_1.context.repo.owner,
-            repo: github_1.context.repo.repo,
-            body: 'Hello from the github action!',
-        });
+        console.log(pr.labels);
+        // await octokit.rest.issues.createComment({
+        //   issue_number: pr.number,
+        //   owner: context.repo.owner,
+        //   repo: context.repo.repo,
+        //   body: 'Hello from the github action!',
+        // });
     }
     console.log(pulls);
     console.log(github_1.context.eventName);
