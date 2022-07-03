@@ -31,6 +31,7 @@ const isLabel =
 
 async function run(): Promise<void> {
   const octokit = getOctokit(core.getInput('access-token'));
+  const message = core.getInput('message');
   const matchBranch = new RegExp(core.getInput('target_branch_match'));
   const pulls = await octokit.rest.pulls.list({
     state: 'open',
@@ -42,7 +43,9 @@ async function run(): Promise<void> {
   await ensureLabelExists(octokit);
 
   for (const pr of pulls.data) {
-    console.log(pr);
+    if (!matchBranch.test(pr.base.ref)) {
+      continue;
+    }
     if (!pr.labels.some(isLabel(subsplitPrLabel))) {
       await octokit.rest.issues.addLabels({
         ...context.repo,
@@ -50,13 +53,16 @@ async function run(): Promise<void> {
         labels: [subsplitPrLabel.name],
       });
     }
-    console.log(pr.labels);
-    // await octokit.rest.issues.createComment({
-    //   issue_number: pr.number,
-    //   owner: context.repo.owner,
-    //   repo: context.repo.repo,
-    //   body: 'Hello from the github action!',
-    // });
+    await octokit.rest.issues.createComment({
+      issue_number: pr.number,
+      ...context.repo,
+      body: message,
+    });
+    await octokit.rest.pulls.update({
+      ...context.repo,
+      pull_number: pr.number,
+      state: 'closed',
+    });
   }
 
   console.log(pulls);

@@ -2,6 +2,9 @@ name: 'Automated Flysystem Maintenance'
 description: 'Automated maintenance tasks for Flysystem (monorepo and sub-splits)'
 author: 'Frank de Jonge'
 inputs:
+  message:
+    description: 'Comment to post under invalid PRs'
+    required: true
   target_branch_match:
     description: 'Regex pattern to match which branches to target'
     required: false
