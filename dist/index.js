@@ -86,9 +86,6 @@ async function run() {
             });
         }
     }
-    console.log(pulls);
-    console.log(github_1.context.eventName);
-    console.log(github_1.context.payload);
 }
 // eslint-disable-next-line github/no-then
 run().catch(error => {

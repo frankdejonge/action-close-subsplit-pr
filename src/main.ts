@@ -67,10 +67,6 @@ async function run(): Promise<void> {
       });
     }
   }
-
-  console.log(pulls);
-  console.log(context.eventName);
-  console.log(context.payload);
 }
 
 // eslint-disable-next-line github/no-then
