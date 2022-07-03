@@ -5,6 +5,10 @@ branding:
   icon: shield
   color: gray-dark
 inputs:
+  close_pr:
+    default: 'yes'
+    required: false
+    description: 'Whether or not to close the sub-split PR'
   message:
     description: 'Comment to post under invalid PRs'
     required: true
