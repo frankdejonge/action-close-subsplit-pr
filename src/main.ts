@@ -1,7 +1,22 @@
 import * as core from '@actions/core';
 import {context, getOctokit} from '@actions/github';
+import { Octokit } from '@octokit/core';
 
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
+
+async function ensureLabelExists(octokit) {
+  const labels = await octokit.rest.issues.listLabelsForRepo({
+    repo: context.repo.repo,
+    owner: context.repo.owner,
+  });
+
+  console.log(labels);
+}
+
+const subsplitPrLabel = {
+  name: 'Sub-split PR',
+  color: '000000',
+};
 
 async function run(): Promise<void> {
   const octokit = getOctokit(core.getInput('access-token'));
@@ -13,7 +28,14 @@ async function run(): Promise<void> {
     per_page: 100,
   });
 
+  await ensureLabelExists(octokit);
+
   for (const pr of pulls.data) {
+    const isLabelled = pr.label.some(label => label.name === subsplitPrLabel.name);
+
+    if ( ! isLabelled) {
+      console.log('not labeled');
+    }
     console.log(pr.labels);
     // await octokit.rest.issues.createComment({
     //   issue_number: pr.number,
