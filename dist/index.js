@@ -37,10 +37,18 @@ async function run() {
     const octokit = (0, github_1.getOctokit)(core.getInput('access-token'));
     const pulls = await octokit.rest.pulls.list({
         state: 'open',
-        repo: github_1.context.repo.repo,
         owner: github_1.context.repo.owner,
+        repo: github_1.context.repo.repo,
         per_page: 100,
     });
+    for (const pr of pulls.data) {
+        await octokit.rest.issues.createComment({
+            issue_number: pr.number,
+            owner: github_1.context.repo.owner,
+            repo: github_1.context.repo.repo,
+            body: 'Hello from the github action!',
+        });
+    }
     console.log(pulls);
     console.log(github_1.context.eventName);
     console.log(github_1.context.payload);
