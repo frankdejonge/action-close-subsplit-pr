@@ -24,7 +24,7 @@ jobs:
       - uses: ./
         with:
           target_branch_match: 'test-target'
-          close_or: 'yes'
+          close_pr: 'no'
           message: |
             Hi :wave:,
             You've sent a PR to a sub-split repository. Pull requests should be directed towards https://example.org
