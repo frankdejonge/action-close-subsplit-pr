@@ -16,7 +16,7 @@ inputs:
     description: 'Regex pattern to match which branches to target'
     required: false
     default: '.*'
-  access-token:
+  access_token:
     description: 'Access-token for the repository. Can be supplied using `{{ secrets.GH_PAT }}`.'
     required: false
     default: ${{ github.token }}

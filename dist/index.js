@@ -51,7 +51,7 @@ const subsplitPrLabel = {
 };
 const isLabel = (a) => (b) => a.name === b.name;
 async function run() {
-    const octokit = (0, github_1.getOctokit)(core.getInput('access-token'));
+    const octokit = (0, github_1.getOctokit)(core.getInput('access_token'));
     const closePr = core.getInput('close_pr') === 'yes';
     const message = core.getInput('message');
     const matchBranch = new RegExp(core.getInput('target_branch_match'));

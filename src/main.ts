@@ -28,7 +28,7 @@ const isLabel =
     a.name === b.name;
 
 async function run(): Promise<void> {
-  const octokit = getOctokit(core.getInput('access-token'));
+  const octokit = getOctokit(core.getInput('access_token'));
   const closePr = core.getInput('close_pr') === 'yes';
   const message = core.getInput('message');
   const matchBranch = new RegExp(core.getInput('target_branch_match'));
