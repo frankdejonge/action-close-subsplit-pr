@@ -35,15 +35,22 @@ const github_1 = __nccwpck_require__(5438);
 // import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 async function ensureLabelExists(octokit) {
     const labels = await octokit.rest.issues.listLabelsForRepo({
-        repo: github_1.context.repo.repo,
-        owner: github_1.context.repo.owner,
+        ...github_1.context.repo,
     });
-    console.log(labels);
+    if (labels.data.some(isLabel(subsplitPrLabel))) {
+        return;
+    }
+    await octokit.rest.issues.createLabel({
+        ...github_1.context.repo,
+        ...subsplitPrLabel,
+    });
 }
 const subsplitPrLabel = {
     name: 'Sub-split PR',
     color: '000000',
+    description: 'PR that targets a sub-split branch',
 };
+const isLabel = (a) => (b) => a.name === b.name;
 async function run() {
     const octokit = (0, github_1.getOctokit)(core.getInput('access-token'));
     const pulls = await octokit.rest.pulls.list({
@@ -54,9 +61,12 @@ async function run() {
     });
     await ensureLabelExists(octokit);
     for (const pr of pulls.data) {
-        const isLabelled = pr.label.some(label => label.name === subsplitPrLabel.name);
-        if (!isLabelled) {
-            console.log('not labeled');
+        if (!pr.labels.some(isLabel(subsplitPrLabel))) {
+            await octokit.rest.issues.addLabels({
+                ...github_1.context.repo,
+                issue_number: pr.number,
+                labels: [subsplitPrLabel.name],
+            });
         }
         console.log(pr.labels);
         // await octokit.rest.issues.createComment({
