@@ -1,7 +1,5 @@
 import * as core from '@actions/core';
-import { context, getOctokit } from '@actions/github';
-
-// import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
+import {context, getOctokit} from '@actions/github';
 
 async function ensureLabelExists(octokit) {
   const labels = await octokit.rest.issues.listLabelsForRepo({

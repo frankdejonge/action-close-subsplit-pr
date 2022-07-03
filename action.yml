@@ -1,6 +1,9 @@
 name: 'Automated Flysystem Maintenance'
 description: 'Automated maintenance tasks for Flysystem (monorepo and sub-splits)'
 author: 'Frank de Jonge'
+branding:
+  icon: shield
+  color: gray-dark
 inputs:
   message:
     description: 'Comment to post under invalid PRs'

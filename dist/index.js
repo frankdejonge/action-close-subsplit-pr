@@ -32,7 +32,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
-// import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 async function ensureLabelExists(octokit) {
     const labels = await octokit.rest.issues.listLabelsForRepo({
         ...github_1.context.repo,
